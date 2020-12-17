@@ -1,0 +1,35 @@
+name: rustfmt
+on:
+  repository_dispatch:
+    types: [rustfmt-command]
+
+jobs:
+  rustfmt:
+    if: >
+      github.event.client_payload.pull_request
+        && (github.event.client_payload.comment.author_association == 'OWNER'
+          || github.event.client_payload.comment.author_association == 'COLLABORATOR'
+          || github.event.client_payload.comment.user.id == github.event.client_payload.issue.user.id)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.ref }}
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          components: rustfmt
+          default: true
+
+      - run: cargo fmt
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: ${{ github.event.client_payload.pull_request.head.ref }}
+          commit_message: Apply rustfmt
+          commit_user_name: teto-bot
+          commit_user_email: teto-bot@users.noreply.github.com

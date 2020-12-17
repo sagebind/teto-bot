@@ -1,0 +1,12 @@
+name: teto
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  teto:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./
+        with:
+          github-token: ${{ secrets.GH_PAT }}

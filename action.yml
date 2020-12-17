@@ -1,0 +1,12 @@
+name: 'Teto'
+description: 'A crazy GitHub bot powered by GitHub Actions'
+inputs:
+  token:
+    description: 'A repo scoped GitHub Personal Access Token.'
+    required: true
+runs:
+  using: 'node12'
+  main: 'index.js'
+branding:
+  icon: 'target'
+  color: 'gray-dark'
