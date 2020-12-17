@@ -19,6 +19,8 @@ async function main() {
         const octokit = github.getOctokit(token);
 
         let client_payload = {
+            repository: `${github.context.repo.owner}/${github.context.repo.repo}`,
+            repository_owner: github.context.repo.owner,
             comment: github.context.payload.comment,
             issue: github.context.payload.issue,
         };

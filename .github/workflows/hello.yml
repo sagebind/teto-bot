@@ -1,0 +1,16 @@
+name: hello
+on:
+  repository_dispatch:
+    types: [hello-command]
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: ${{ github.event.client_payload.repository }}
+          issue-number: ${{ github.event.client_payload.issue.number }}
+          body: |
+            Hi there, @${{ github.event.client_payload.comment.user.login }}!
