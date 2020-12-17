@@ -12,6 +12,11 @@ jobs:
           || github.event.client_payload.comment.user.id == github.event.client_payload.issue.user.id)
     runs-on: ubuntu-latest
     steps:
+      - name: Dump client payload
+        env:
+          CLIENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
+        run: echo "$CLIENT_PAYLOAD"
+
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_PAT }}
