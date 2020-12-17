@@ -25,11 +25,11 @@ async function main() {
 
         // If this comment is on a pull request, fetch additional info about the pull request.
         if (client_payload.issue.pull_request) {
-            client_payload.pull_request = await octokit.pulls.get({
+            client_payload.pull_request = (await octokit.pulls.get({
                 repo: github.context.repo.repo,
                 owner: github.context.repo.owner,
                 pull_number: github.context.payload.issue.number,
-            });
+            })).data;
         }
 
         const [owner, repo] = botRepo.split('/');
